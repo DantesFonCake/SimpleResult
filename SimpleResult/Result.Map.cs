@@ -1,6 +1,6 @@
 ﻿namespace SimpleResult;
 
-public readonly partial struct Result<TValue, TError>
+public partial struct Result<TValue, TError>
 {
 	public Result<TValue2, TError> Map<TValue2, TData>(Func<TValue, TData, TValue2> valueMapper, TData data) =>
 		IsOk ? new Result<TValue2, TError>(valueMapper(_value!, data)) : new Result<TValue2, TError>(_error!);

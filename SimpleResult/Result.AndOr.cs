@@ -1,6 +1,6 @@
 ﻿namespace SimpleResult;
 
-public readonly partial struct Result<TValue, TError>
+public partial struct Result<TValue, TError>
 {
 	public Result<TValue2, TError> And<TValue2>(Result<TValue2, TError> next) =>
 		IsOk ? next : new Result<TValue2, TError>(_error!);
@@ -14,7 +14,7 @@ public readonly partial struct Result<TValue, TError>
 	public Result<TValue2, TError> AndThen<TValue2>(Func<TValue, Result<TValue2, TError>> then) =>
 		AndThen((value, func) => func(value), then);
 
-	public Result<TValue, TError2> Or<TError2>(Result<TValue, TError2> next) =>
+	public Result<TValue, TError2> Or<TError2>(in Result<TValue, TError2> next) =>
 		IsError ? next : new Result<TValue, TError2>(_value!);
 
 	public Result<TValue, TError2> Or<TError2>(TError2 next) => 
