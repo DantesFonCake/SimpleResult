@@ -1,12 +1,13 @@
 using NUnit.Framework;
+using SimpleResult.Tests.Base;
 
 namespace SimpleResult.Tests;
 
 [TestFixture]
-public class AndTests : LogicalWithValueBaseTests
+public class AndTests: AndWithValueBaseTests
 {
     protected override string OperationName => "And";
-    protected override Result<TValue2, TError2> PerformOperation<TValue, TError, TValue2, TError2>(Result<TValue, TError> left, Result<TValue2, TError2> right)
+    protected override Result<TValue2, TError> PerformOperation<TValue, TError, TValue2>(Result<TValue, TError> left, Result<TValue2, TError> right)
     {
         return left.And(right);
     }

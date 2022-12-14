@@ -1,15 +1,17 @@
+using SimpleResult.Tests.Base;
+
 namespace SimpleResult.Tests;
 
-public class OrTests : LogicalWithValueBaseTests
+public class OrTests : OrWithValueBaseTests
 {
 	protected override string OperationName => "Or";
-	protected override Result<TValue2, TError> PerformOperation<TValue, TError, TValue2>(Result<TValue, TError> left, Result<TValue2, TError> right)
+	protected override Result<TValue, TError2> PerformOperation<TValue, TError, TError2>(Result<TValue, TError> left, Result<TValue, TError2> right)
 	{
 		return left.Or(right);
 	}
 
-	protected override Result<TValue2, TError> PerformValueOperation<TValue, TError, TValue2>(Result<TValue, TError> ok, TValue2 unit)
+	protected override Result<TValue, TError2> PerformValueOperation<TValue, TError, TError2>(Result<TValue, TError> left, TError2 right)
 	{
-		throw new NotImplementedException();
+		return left.Or(right);
 	}
 }

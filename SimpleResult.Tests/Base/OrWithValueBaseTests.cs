@@ -1,11 +1,11 @@
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace SimpleResult.Tests;
+namespace SimpleResult.Tests.Base;
 
-public abstract class LogicalWithValueBaseTests : LogicalBaseTests
+public abstract class OrWithValueBaseTests : OrBaseTests
 {
-    protected abstract Result<TValue2, TError> PerformValueOperation<TValue, TError, TValue2>(Result<TValue, TError> ok, TValue2 unit);
+    protected abstract Result<TValue, TError2> PerformValueOperation<TValue, TError, TError2>(Result<TValue, TError> ok, TError2 unit);
     
     [Test]
     public void Ok_Operation_Value_ReturnsOk()
@@ -18,13 +18,13 @@ public abstract class LogicalWithValueBaseTests : LogicalBaseTests
     }
     
     [Test]
-    public void Ok_Operation_Value_ReturnsValue()
+    public void Ok_Operation_Value_ReturnsOriginalOk()
     {
-        var ok = Result.Ok();
+        var ok = Result.Ok(OkMessage1);
 
-        var result = PerformValueOperation(ok, OkMessage1);
+        var result = PerformValueOperation(ok, ErrorMessage1);
 
-        result.Value.Should().Be(OkMessage1, $"Ok {OperationName} Value should return provided Value");
+        result.Value.Should().Be(OkMessage1, $"Ok {OperationName} Value should return original Ok");
     }
     
     [Test]
@@ -38,12 +38,12 @@ public abstract class LogicalWithValueBaseTests : LogicalBaseTests
     }
     
     [Test]
-    public void Error_Operation_Value_ReturnsSameError()
+    public void Error_Operation_Value_ReturnsValue()
     {
         var error = Result.Error(ErrorMessage1);
 
         var result = PerformValueOperation(error, ErrorMessage2);
 
-        result.Error.Should().Be(ErrorMessage1, $"Error {OperationName} Value should return provided Error");
+        result.Error.Should().Be(ErrorMessage2, $"Error {OperationName} Value should return provided Error");
     }
 }

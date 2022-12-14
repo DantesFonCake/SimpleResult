@@ -1,18 +1,12 @@
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace SimpleResult.Tests;
-public abstract class LogicalBaseTests
-{
-    protected const string OkMessage1 = "According to all laws of aviation";
-    protected const string OkMessage2 = "A bee should not be able to fly";
+namespace SimpleResult.Tests.Base;
 
-    protected const string ErrorMessage1 = "That's an error alright";
-    protected const string ErrorMessage2 = "Just not a super-one";
-    
-    protected abstract string OperationName { get; }
-    protected abstract Result<TValue2, TError2> PerformOperation<TValue, TError, TValue2, TError2>(Result<TValue, TError> left, 
-        Result<TValue2, TError2> right);
+public abstract class AndBaseTests : LogicalBaseTests
+{
+    protected abstract Result<TValue2, TError> PerformOperation<TValue, TError, TValue2>(Result<TValue, TError> left, 
+        Result<TValue2, TError> right);
     
     [Test]
     public void Ok_Operation_Ok_ReturnsOk()
