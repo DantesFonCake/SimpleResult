@@ -4,6 +4,15 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <PackageId>DantesFonCake.SimpleResult</PackageId>
+        <Title>SimpleResult</Title>
+        <Authors>DantesFonCake</Authors>
+        <Description>Simple library with an attempt to mimic Rust's Result type</Description>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/DantesFonCake/SimpleResult</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>Result</PackageTags>
+        <Copyright>"Copyright (c) DantesFonCake 2022."</Copyright>
     </PropertyGroup>
 
 </Project>
