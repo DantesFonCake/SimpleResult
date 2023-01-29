@@ -27,7 +27,7 @@ public abstract class OrBaseTests : LogicalBaseTests
 
         var result = PerformOperation(ok1, ok2);
 
-        result.Value.Should().Be(OkMessage1, $"Ok {OperationName} Ok should return first Ok");
+        result.Unwrap().Should().Be(OkMessage1, $"Ok {OperationName} Ok should return first Ok");
     }
 
     [Test]
@@ -49,7 +49,7 @@ public abstract class OrBaseTests : LogicalBaseTests
 
         var result = PerformOperation(ok,error);
         
-        result.Value.Should().Be(OkMessage1, $"Ok {OperationName} Error should return provided Ok");
+        result.Unwrap().Should().Be(OkMessage1, $"Ok {OperationName} Error should return provided Ok");
     }
     
     [Test]
@@ -71,7 +71,7 @@ public abstract class OrBaseTests : LogicalBaseTests
 
         var result = PerformOperation(error, ok);
         
-        result.Value.Should().Be(OkMessage1, $"Error {OperationName} Ok should return provided Ok");
+        result.Unwrap().Should().Be(OkMessage1, $"Error {OperationName} Ok should return provided Ok");
     }
     
     [Test]
@@ -93,6 +93,6 @@ public abstract class OrBaseTests : LogicalBaseTests
 
         var result = PerformOperation(error1, error2);
         
-        result.Error.Should().Be(ErrorMessage2, $"Error {OperationName} Error should return first Error");
+        result.UnwrapError().Should().Be(ErrorMessage2, $"Error {OperationName} Error should return first Error");
     }
 }

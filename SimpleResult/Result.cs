@@ -50,8 +50,8 @@ public static class Result
 
 public readonly partial struct Result<TValue, TError>
 {
-    private readonly TError? _error;
-    private readonly TValue? _value;
+    internal readonly TError? _error;
+    internal readonly TValue? _value;
 
     public Result(TValue value)
     {
@@ -74,22 +74,15 @@ public readonly partial struct Result<TValue, TError>
     public bool IsOk { get; }
     public bool IsError => !IsOk;
 
-    public TError Error => GetErrorOrThrow();
-
-    public TError GetErrorOrThrow() =>
-        IsError ? _error! : throw new InvalidOperationException($"Result is in status ok. Error is not set.");
-
-    public TValue Value => GetValueOrThrow();
+    public TError UnwrapError() =>
+        IsError ? _error! : throw new InvalidUnwrapException<TValue>($"Result is in status ok. Error is not set.", _value!);
+    
 
     public TValue? GetValueOr(TValue? defaultValue) =>
         IsOk ? _value! : defaultValue;
 
-    public TValue GetValueOrThrow() =>
-        IsOk ? _value! : throw new InvalidOperationException($"Result is in status error. Value is not set.");
+    public TValue Unwrap() =>
+        IsOk ? _value! : throw new InvalidUnwrapException<TError>($"Result is in status error. Value is not set.", _error!);
 
     public TValue? GetValueOrDefault() => GetValueOr(default);
-
-    internal TValue GetValueUnchecked() => _value!;
-
-    internal TError GetErrorUnchecked() => _error!;
 }

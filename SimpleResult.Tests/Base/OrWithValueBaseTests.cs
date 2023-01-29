@@ -24,7 +24,7 @@ public abstract class OrWithValueBaseTests : OrBaseTests
 
         var result = PerformValueOperation(ok, ErrorMessage1);
 
-        result.Value.Should().Be(OkMessage1, $"Ok {OperationName} Value should return original Ok");
+        result.Unwrap().Should().Be(OkMessage1, $"Ok {OperationName} Value should return original Ok");
     }
     
     [Test]
@@ -44,6 +44,6 @@ public abstract class OrWithValueBaseTests : OrBaseTests
 
         var result = PerformValueOperation(error, ErrorMessage2);
 
-        result.Error.Should().Be(ErrorMessage2, $"Error {OperationName} Value should return provided Error");
+        result.UnwrapError().Should().Be(ErrorMessage2, $"Error {OperationName} Value should return provided Error");
     }
 }

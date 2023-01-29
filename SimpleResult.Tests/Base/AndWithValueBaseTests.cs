@@ -24,7 +24,7 @@ public abstract class AndWithValueBaseTests : AndBaseTests
 
         var result = PerformValueOperation(ok, OkMessage1);
 
-        result.Value.Should().Be(OkMessage1, $"Ok {OperationName} Value should return provided Value");
+        result.Unwrap().Should().Be(OkMessage1, $"Ok {OperationName} Value should return provided Value");
     }
     
     [Test]
@@ -44,6 +44,6 @@ public abstract class AndWithValueBaseTests : AndBaseTests
 
         var result = PerformValueOperation(error, ErrorMessage2);
 
-        result.Error.Should().Be(ErrorMessage1, $"Error {OperationName} Value should return provided Error");
+        result.UnwrapError().Should().Be(ErrorMessage1, $"Error {OperationName} Value should return provided Error");
     }
 }

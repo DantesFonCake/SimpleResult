@@ -27,6 +27,6 @@ public static class ResultExtensions
 	{
 		return result.IsOk
 			? then()
-			: new Result<TValue, TError>(result.GetErrorUnchecked());
+			: new Result<TValue, TError>(result._error!);
 	}
 }
