@@ -20,9 +20,9 @@ public partial struct Result<TValue, TError>
 	public Result<TValue, TError2> Or<TError2>(TError2 next) => 
 		Or(new Result<TValue, TError2>(next));
 
-	public Result<TValue, TError2> OrThen<TError2, TData>(Func<TError, TData, Result<TValue, TError2>> then, TData data) =>
+	public Result<TValue, TError2> OrElse<TError2, TData>(Func<TError, TData, Result<TValue, TError2>> then, TData data) =>
 		IsError ? then(_error!, data) : new Result<TValue, TError2>(_value!);
 
-	public Result<TValue, TError2> OrThen<TError2>(Func<TError, Result<TValue, TError2>> then) =>
-		OrThen((error, func) => func(error), then);
+	public Result<TValue, TError2> OrElse<TError2>(Func<TError, Result<TValue, TError2>> then) =>
+		OrElse((error, func) => func(error), then);
 }

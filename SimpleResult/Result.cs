@@ -77,14 +77,19 @@ public readonly partial struct Result<TValue, TError>
     public TError UnwrapError() =>
         IsError ? _error! : throw new InvalidUnwrapException<TValue>($"Result is in status ok. Error is not set.", _value!);
     
-
-    public TValue? GetValueOr(TValue? defaultValue) =>
-        IsOk ? _value! : defaultValue;
-
     public TValue Unwrap() =>
         IsOk ? _value! : throw new InvalidUnwrapException<TError>($"Result is in status error. Value is not set.", _error!);
 
-    public TValue? GetValueOrDefault() => GetValueOr(default);
+    public TValue UnwrapOr(TValue defaultValue) =>
+        IsOk ? _value! : defaultValue;
+    
+    public TValue UnwrapOrElse<TData>(Func<TError, TData, TValue> map, TData data) =>
+        IsOk ? _value! : map(_error!, data);
+
+    public TValue UnwrapOrElse(Func<TError, TValue> map) =>
+        UnwrapOrElse(static (error, map) => map(error), map);
+
+    public TValue? UnwrapOrDefault() => UnwrapOr(default!);
 
     public static implicit operator Result<TValue, TError>(TValue value) => new(value);
     public static implicit operator Result<TValue, TError>(TError error) => new(error);
