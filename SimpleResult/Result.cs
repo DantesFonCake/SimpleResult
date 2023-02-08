@@ -85,4 +85,7 @@ public readonly partial struct Result<TValue, TError>
         IsOk ? _value! : throw new InvalidUnwrapException<TError>($"Result is in status error. Value is not set.", _error!);
 
     public TValue? GetValueOrDefault() => GetValueOr(default);
+
+    public static implicit operator Result<TValue, TError>(TValue value) => new(value);
+    public static implicit operator Result<TValue, TError>(TError error) => new(error);
 }

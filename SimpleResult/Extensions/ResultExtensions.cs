@@ -1,4 +1,4 @@
-﻿namespace SimpleResult;
+﻿namespace SimpleResult.Extensions;
 
 public static class ResultExtensions
 {
