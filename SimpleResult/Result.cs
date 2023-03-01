@@ -88,6 +88,18 @@ public readonly partial struct Result<TValue, TError>
 
     public TValue UnwrapOrElse(Func<TError, TValue> map) =>
         UnwrapOrElse(static (error, map) => map(error), map);
+    
+    public async Task<TValue> UnwrapOrElse<TData>(Func<TError, TData, Task<TValue>> map, TData data) =>
+        IsOk ? _value! : await map(_error!, data);
+
+    public Task<TValue> UnwrapOrElse(Func<TError, Task<TValue>> map) =>
+        UnwrapOrElse(static (error, map) => map(error), map);
+    
+    public async ValueTask<TValue> UnwrapOrElse<TData>(Func<TError, TData, ValueTask<TValue>> map, TData data) =>
+        IsOk ? _value! : await map(_error!, data);
+
+    public ValueTask<TValue> UnwrapOrElse(Func<TError, ValueTask<TValue>> map) =>
+        UnwrapOrElse(static (error, map) => map(error), map);
 
     public TValue? UnwrapOrDefault() => UnwrapOr(default!);
 
