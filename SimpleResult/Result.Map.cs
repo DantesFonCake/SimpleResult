@@ -3,7 +3,7 @@
 public partial struct Result<TValue, TError>
 {
 	public Result<TValue2, TError> Map<TValue2, TData>(Func<TValue, TData, TValue2> valueMapper, TData data) =>
-		IsOk ? new Result<TValue2, TError>(valueMapper(_value!, data)) : new Result<TValue2, TError>(_error!);
+		IsOk ? valueMapper(_value!, data) : _error!;
 
 	public Result<TValue2, TError> Map<TValue2>(Func<TValue, TValue2> valueMapper) =>
 		Map(static (value, func) => func(value), valueMapper);
@@ -103,7 +103,7 @@ public partial struct Result<TValue, TError>
 		MapOrElse(static (error, em) => em(error), errorMapper, static (value, vm) => vm(value), valueMapper);
 
 	public Result<TValue, TError2> MapError<TError2, TData>(Func<TError, TData, TError2> errorMapper, TData data) =>
-		IsOk ? new Result<TValue, TError2>(_value!) : new Result<TValue, TError2>(errorMapper(_error!, data));
+		IsOk ? _value! : errorMapper(_error!, data);
 
 	public Result<TValue, TError2> MapError<TError2>(Func<TError, TError2> errorMapper) =>
 		MapError(static (error, func) => func(error), errorMapper);

@@ -21,31 +21,31 @@ public static class Result
     {
         try
         {
-            return new Result<TValue, TError>(func(data));
+            return func(data);
         }
         catch (Exception e)
         {
-            return new Result<TValue, TError>(exceptionMapper(e, errorData));
+            return exceptionMapper(e, errorData);
         }
     }
 
     public static Result<TValue, TError> Try<TValue, TError, TData>(Func<TData, TValue> func, TData data,
         Func<Exception, TError> exceptionMapper) 
-        => Try(func, data, (e, mapper) => mapper(e), exceptionMapper);
+        => Try(func, data, static (e, mapper) => mapper(e), exceptionMapper);
 
     public static Result<TValue, TError> Try<TValue, TError, TErrorData>(Func<TValue> func,
         Func<Exception, TErrorData, TError> exceptionMapper, TErrorData errorData)
-        => Try(valueSource => valueSource(), func, exceptionMapper, errorData);
+        => Try(static valueSource => valueSource(), func, exceptionMapper, errorData);
 
     public static Result<TValue, Exception> Try<TValue, TData>(Func<TData, TValue> func, TData data)
-        => Try(func, data, e => e);
+        => Try(func, data, static e => e);
 
     public static Result<TValue, TError> Try<TValue, TError>(Func<TValue> func,
         Func<Exception, TError> exceptionMapper) 
-        => Try(valueSource => valueSource(), func, exceptionMapper);
+        => Try(static valueSource => valueSource(), func, exceptionMapper);
 
     public static Result<TValue, Exception> Try<TValue>(Func<TValue> func) 
-        => Try(func, e => e);
+        => Try(func, static e => e);
 }
 
 public readonly partial struct Result<TValue, TError>
@@ -101,7 +101,7 @@ public readonly partial struct Result<TValue, TError>
     public ValueTask<TValue> UnwrapOrElse(Func<TError, ValueTask<TValue>> map) =>
         UnwrapOrElse(static (error, map) => map(error), map);
 
-    public TValue? UnwrapOrDefault() => UnwrapOr(default!);
+    public TValue? UnwrapOrDefault() => _value;
 
     public static implicit operator Result<TValue, TError>(TValue value) => new(value);
     public static implicit operator Result<TValue, TError>(TError error) => new(error);

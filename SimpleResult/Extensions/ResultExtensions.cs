@@ -4,22 +4,22 @@ public static class ResultExtensions
 {
 	public static Result<TValue, Unit> ToOk<TValue>(this TValue value)
 	{
-		return new Result<TValue, Unit>(value);
+		return value;
 	}
 	
 	public static Result<Unit, TError> ToError<TError>(this TError error)
 	{
-		return new Result<Unit, TError>(error);
+		return error;
 	}
 
 	public static Result<TValue, TError> ToOk<TValue, TError>(this TValue value)
 	{
-		return new Result<TValue, TError>(value);
+		return value;
 	}
 	
 	public static Result<TValue, TError> ToError<TValue, TError>(this TError error)
 	{
-		return new Result<TValue, TError>(error);
+		return error;
 	}
 
 	public static Result<TValue, TError> AndThen<TValue, TError>(this Result<Unit, TError> result,
@@ -27,6 +27,6 @@ public static class ResultExtensions
 	{
 		return result.IsOk
 			? then()
-			: new Result<TValue, TError>(result._error!);
+			: result._error!;
 	}
 }
